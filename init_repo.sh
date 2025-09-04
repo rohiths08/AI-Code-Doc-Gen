@@ -24,32 +24,28 @@ echo "results/" >> .gitignore
 echo "MIT License" > LICENSE
 
 # ✅ Add default CI workflow instead of empty file
-cat <<EOL > .github/workflows/ci.yml
-name: CI
-
-on: [push, pull_request]
-
+# ✅ Add default CI workflow
+echo "name: CI
+on:
+  push:
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
-
+          python-version: '3.10'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
       - name: Run tests
-        run: |
-          echo "✅ No tests yet, workflow works fine!"
-EOL
+        run: echo '✅ CI workflow works!'
+" > .github/workflows/ci.yml
+
 
 echo "✅ Repo initialized successfully!"
