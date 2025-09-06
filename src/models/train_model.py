@@ -19,15 +19,15 @@ def main():
 
     # ✅ Tokenize function
     def preprocess_function(examples):
-        inputs = examples["code"]
-        targets = examples["comment"]
+        inputs = examples["input_text"]
+        targets = examples["target_text"]
         model_inputs = tokenizer(inputs, max_length=256, truncation=True)
         with tokenizer.as_target_tokenizer():
             labels = tokenizer(targets, max_length=128, truncation=True)
         model_inputs["labels"] = labels["input_ids"]
         return model_inputs
 
-    tokenized = dataset.map(preprocess_function, batched=True, remove_columns=["code", "comment"])
+    tokenized = dataset.map(preprocess_function, batched=True, remove_columns=["input_text", "target_text"])
 
     # ✅ Split train/validation
     train_data = tokenized["train"].shuffle(seed=42).select(range(10000))   # subset for quick test
@@ -39,7 +39,7 @@ def main():
     # ✅ Training args
     training_args = Seq2SeqTrainingArguments(
         output_dir="results/sample_outputs",
-        evaluation_strategy="epoch",
+        do_eval=True,
         learning_rate=5e-5,
         per_device_train_batch_size=8,
         per_device_eval_batch_size=8,
