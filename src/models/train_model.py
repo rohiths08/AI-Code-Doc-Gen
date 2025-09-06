@@ -10,7 +10,7 @@ from transformers import (
 
 def main():
     # ✅ Load preprocessed dataset
-    dataset = load_from_disk("data/code_doc_pairs")
+    dataset = load_from_disk("/content/drive/MyDrive/AI-Code-Doc-Gen/data/code_doc_pairs")
 
     # ✅ Load tokenizer and model
     model_name = "Salesforce/codet5-small"
